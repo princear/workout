@@ -67,7 +67,7 @@ export function DrawerContent(props) {
                     </View>
                       
                       <TouchableOpacity style={styles.ListContainer}
-                      onPress={()=> {props.navigation.navigate('EditProfile')}}
+                      onPress={()=> {props.navigation.navigate('EditProfile'),props.navigation.closeDrawer()}}
                       >
 
                       <Image

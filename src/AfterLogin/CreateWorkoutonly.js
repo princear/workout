@@ -302,6 +302,8 @@ export default class CreateWorkoutonly extends Component {
         console.log('<<<<<<<<<<<<<<',wtitle,description,time,date,id.toString())
        const image = this.state.choose_photo.uri
 
+      
+
         ImgToBase64.getBase64String(image)
         .then(base64String  => {
       
@@ -607,15 +609,31 @@ fetch('http://3.106.36.138/api/add_workout',
                         </TouchableOpacity>
                     </View>
                     <View style={{width:wp('60%')}}>
-                        <Text style={{ justifyContent: 'center', alignSelf: 'center', fontFamily: 'K2D-Normal', marginTop: 10, color: '#141821' }}>Create Workout</Text>
+                        <Text style={{ justifyContent: 'center', alignSelf: 'center', fontFamily: 'K2D-Normal', marginTop: 10, color: '#141821' }}>Create Workout11</Text>
                     </View>
                     <View style={{width:wp('20%')}}>
 
-                        <TouchableOpacity
-                            onPress={()=> this.Create_Workout()}
-                            style={styles.button}>
-                            <Image source={require('../../Assets/check.png')} style={styles.loginicon} />
-                        </TouchableOpacity>
+                    {this.state.wtitle != '' && this.state.description != ''  && this.state.addTime != '' && this.state.addDate != '' && this.state.choose_photo.uri != '' 
+                    ?
+
+                    <TouchableOpacity
+                  
+                    onPress={()=> this.Create_Workout()}
+                    style={styles.button}>
+                    <Image source={require('../../Assets/checkblack.png')} style={styles.loginicon} />
+                </TouchableOpacity>
+                    :
+
+                    <TouchableOpacity
+                   
+                    onPress={()=> this.Create_Workout()}
+                    style={styles.button}>
+                    <Image source={require('../../Assets/check.png')} style={styles.loginicon} />
+                </TouchableOpacity>
+
+                    }
+
+                       
 
                     </View>
                 </View>

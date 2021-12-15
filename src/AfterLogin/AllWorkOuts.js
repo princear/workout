@@ -41,6 +41,10 @@ export default class AllWorkOuts extends Component {
             isPrivate: false,
             isVisible:true,
             progressPercent:0,
+            progressPercent1:0,
+            progressPercent2:0,
+            progressPercent3:0,
+            progressPercent4:0
 
         };
       //  this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
@@ -67,13 +71,14 @@ export default class AllWorkOuts extends Component {
 
     anim = new Animated.Value(0);
     onAnimate = () => {  
-      this.anim.addListener(({})=> {  
-          this.setState({progressPercent: this.state.progressPercent});  
-      });  
+      // this.anim.addListener(({})=> {  
+      //     this.setState({progressPercent: this.state.progressPercent});  
+      // });  
       Animated.timing(this.anim,{  
            toValue: 100,  
            duration: 50000,  
-           useNativeDriver: false
+           useNativeDriver: false,
+           
       }).start();  
   }  
 
@@ -188,7 +193,11 @@ this.componentDidMount();
 
 
     render() {
-    const img = 'http://3.106.36.138';
+      const zero = parseInt(this.state.progressPercent) - 0;
+      const one = this.state.progressPercent;
+      const two = parseInt(this.state.progressPercent) -40;
+      const three = parseInt(this.state.progressPercent) -60;
+      const four = parseInt(this.state.progressPercent) -80;
     //const currentTime = selectedTime || new Date();
         return (
 
@@ -327,7 +336,17 @@ this.componentDidMount();
                                           </DashedLine>
                                       </View> */}
   
-                                          <View style={{width:wp('55%'),marginTop:5,backgroundColor:'#CDCECF'}}>
+   {/* <View style={{flexDirection:'row'}}> 
+                      
+                    
+                      <Text >{item.workout_progress_percentage -0}%</Text>
+                      <Text >{item.workout_progress_percentage -20}%</Text>
+                      <Text >{item.workout_progress_percentage -40}%</Text>
+                      <Text >{item.workout_progress_percentage -60}%</Text>
+                      <Text >{item.workout_progress_percentage -80}%</Text>
+                  
+                   </View>  */}
+                                          {/* <View style={{width:wp('55%'),marginTop:5,backgroundColor:'#CDCECF'}}>
                                          
                                          
                                           <LinearGradient   colors={['#1474F0','red' ,]} 
@@ -343,7 +362,197 @@ this.componentDidMount();
                                               styles.inner,{width: item.workout_progress_percentage +"%"},  
                                           ]}  
                                       />   */}
-                      </View>
+                      {/* </View>  */}
+
+                      <View style={{flexDirection:'row'}}>
+
+<View style={{width:wp('10%'),marginRight:5,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center',borderRadius: 50}}>
+
+{(() => {
+if (item.workout_progress_percentage -0 <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (item.workout_progress_percentage -0 >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('10%'),borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(item.workout_progress_percentage - 0)),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+</View>
+
+<View style={{width:wp('10%'),marginRight:5,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center',borderRadius: 50}}>
+
+{(() => {
+if (item.workout_progress_percentage -20 <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (item.workout_progress_percentage -20 >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('10%'),borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(item.workout_progress_percentage -20)),marginRight:2,borderRadius: 50,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+</View>
+
+<View style={{width:wp('10%'),marginRight:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center',borderRadius: 50}}>
+
+{(() => {
+if (item.workout_progress_percentage -40 <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (item.workout_progress_percentage -40 >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('10%'),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(item.workout_progress_percentage -40)),marginRight:2,borderRadius: 50,},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+
+</View>
+
+<View style={{width:wp('10%'),marginRight:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center',borderRadius: 50}}>
+
+
+{(() => {
+if (item.workout_progress_percentage -60 <= 0) {
+  return (
+      <View/>
+  )
+}
+
+else if (item.workout_progress_percentage -60 >= 20) {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('10%'),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(item.workout_progress_percentage -60)),marginRight:2,borderRadius: 50,},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+
+</View>
+
+
+ <View style={{width:wp('10%'),marginLeft:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center',borderRadius: 50}}>
+
+{(() => {
+if (item.workout_progress_percentage -80 <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (item.workout_progress_percentage -80 >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('10%'),marginLeft:2,borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(item.workout_progress_percentage -80)),marginLeft:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+</View> 
+
+      
+</View>   
+
+         
                                          </View> 
                                     </TouchableOpacity>
                     
@@ -355,6 +564,7 @@ this.componentDidMount();
                     />
                     
                     :
+
                     <View style={{ flex: 1, justifyContent: 'center', }}>
 
                       <Text style={{alignSelf:'center'}}>No workout available.</Text>

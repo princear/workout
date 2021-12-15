@@ -67,7 +67,11 @@ export default class ExerciseWorkout extends Component {
             workoutactualTime:'',
             currentpercentage:'',
             newtimer :'',
-            playbutton:''
+            playbutton:'',
+            progressPercent1:0,
+            progressPercent2:0,
+            progressPercent3:0,
+            progressPercent4:0
  
         };
 
@@ -311,7 +315,10 @@ export default class ExerciseWorkout extends Component {
                console.log('Finished workour=t',responseJson.data);
                   setTimeout(() => {
                       this.setState({ isLoading: false})
-                      this.props.navigation.navigate('CongratsScreen');
+                    //  this.props.navigation.navigate('CongratsScreen');
+                    this.props.navigation.navigate('WorkoutDetail',{
+                      workId:this.props.route.params.WorkID
+                     });
    
                   }, 2000)
     
@@ -564,26 +571,31 @@ export default class ExerciseWorkout extends Component {
 
 
     render() {
+      const zero = parseInt(this.state.progressPercent) - 0;
+      const one = parseInt(this.state.progressPercent) -20;
+      const two = parseInt(this.state.progressPercent) -40;
+      const three = parseInt(this.state.progressPercent) -60;
+      const four = parseInt(this.state.progressPercent) -80;
 
-      if(this.state.isLoading == true)
-      return(
-        <View style={{ flex: 1, justifyContent: 'center', position: 'absolute', top: '50%', left: '40%' }}>
+    //   if(this.state.isLoading == true)
+    //   return(
+    //     <View style={{ flex: 1, justifyContent: 'center', position: 'absolute', top: '50%', left: '40%' }}>
 
-        <ActivityIndicator
-            size="large"
-            style={{
-                backgroundColor: "rgba(20,116,240,.8)",
-                height: 80,
-                width: 80,
-                zIndex: 999,
-                borderRadius: 15
-            }}
-            size="small"
-            color="#ffffff"
-        />
+    //     <ActivityIndicator
+    //         size="large"
+    //         style={{
+    //             backgroundColor: "rgba(20,116,240,.8)",
+    //             height: 80,
+    //             width: 80,
+    //             zIndex: 999,
+    //             borderRadius: 15
+    //         }}
+    //         size="small"
+    //         color="#ffffff"
+    //     />
 
-    </View>
-      )
+    // </View>
+    //   )
         
       //  const name = this.props.route.params.name;
 
@@ -591,7 +603,7 @@ export default class ExerciseWorkout extends Component {
 
             <View style={styles.container}>
 
-                 {/* {(this.state.isLoading) &&
+                 {(this.state.isLoading) &&
                     <View style={{ flex: 1, justifyContent: 'center', position: 'absolute', top: '50%', left: '40%' }}>
 
                         <ActivityIndicator
@@ -608,14 +620,14 @@ export default class ExerciseWorkout extends Component {
                             size="small"
                             color="#ffffff"
                         />
-                    </View>} */}
+                    </View>}
 
-                    <View style={{alignSelf:'center',marginTop:10}}>
+                    <View style={{alignItems:'center',marginTop:10,borderBottomColor:'#CDCECF',borderBottomWidth:3,marginBottom:10}}>
                     <View style={{flexDirection:'row',}}>
-                        <View style={{width:hp('50%')}}>
+                        <View style={{width:hp('35%'),}}>
                              <Text style={styles.Title}>{this.state.Title}</Text>
                          </View>
-                            
+                         <View style={{width:hp('14%')}}>   
                           <TouchableOpacity
                           onPress={() => this.goBack()}
                           >   
@@ -626,32 +638,224 @@ export default class ExerciseWorkout extends Component {
                                  marginTop:5,   
                                // alignContent:'flex-end',
                                 resizeMode:'cover',
-                               // width:hp('45%'),
-                               
+                                alignSelf:'flex-end'
+                             
                                 
                                 }}
                                 source={require('../../Assets/cross.png')}
                             />
 
                    </TouchableOpacity>
+                   </View>
                     </View>
                       
                     <View style={{flexDirection:'row',marginTop:10}}> 
                        <Text style={styles.Title1}>Progress</Text>
                        <Text style={styles.PercentText}>{parseInt(this.state.progressPercent)}%</Text>
                      </View>
-                     <View style={{width:wp('90%'),marginTop:5,marginBottom:5,backgroundColor:'#CDCECF',borderRadius:50}}>
+                     {/* <View style={{width:wp('90%'),marginTop:5,marginBottom:5,backgroundColor:'#CDCECF',borderRadius:50}}>
                      <LinearGradient   colors={['#1474F0','red' ,]} 
                                            style={[  
                                             styles.inner,{width: parseInt(this.state.progressPercent) +"%",borderRadius: 50},  
                                         ]}   
-                                        />
+                       />
+
                           {/* <Animated.View  
                               style={[  
                                   styles.inner,{width: parseInt(this.state.progressPercent)  +"%"},  
                               ]}  
                           />   */}
-                      </View>
+                          
+                      {/* </View>  */}
+
+                      <View style={{flexDirection:'row',paddingBottom:15}}>
+
+<View style={{width:wp('17%'),marginRight:5,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+
+{(() => {
+if (zero <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (zero >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('17%'),borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(zero)),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+</View>
+
+<View style={{width:wp('17%'),marginRight:5,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+
+{(() => {
+if (one <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (one >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('17%'),borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(one)),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+</View>
+
+<View style={{width:wp('17%'),marginRight:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+
+{(() => {
+if (two <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (two >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('17%'),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(two)),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+
+</View>
+
+<View style={{width:wp('17%'),marginRight:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+
+
+{(() => {
+if (three <= 0) {
+  return (
+      <View/>
+  )
+}
+
+else if (three >= 20) {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('17%'),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(three)),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+
+</View>
+
+
+
+<View style={{width:wp('17%'),marginRight:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+
+{(() => {
+if (four <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (four >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('17%'),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(four)),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+</View>
+
+      
+</View>   
 
                 </View> 
 
@@ -677,13 +881,13 @@ export default class ExerciseWorkout extends Component {
                        {/* <Text style={styles.Title}>{this.state.currentPlayTitle}</Text> */}
                     <Text style={styles.Title}>{this.state.dataa}</Text> 
                        <Text style={styles.Title1}>No Equipments</Text>
-                       {this.state.running == true ?
+                       {/* {this.state.running == true ?
                         
                         <Text style={styles.Title}>True</Text>
                         :
                         <Text style={styles.Title}>false</Text>
                         
-                        }
+                        } */}
                        </View>
                        <View style={{justifyContent:'flex-end',flexDirection:'row',width:wp('45%')}}>
 
@@ -860,7 +1064,7 @@ const styles = StyleSheet.create({
       
         width:wp('40%'),
         textAlign:'right',
-        color:'#141821',
+        color:'#CDCECF',
        
         fontFamily:'K2D-Normal',
         fontSize:12
@@ -957,7 +1161,9 @@ searchIcon:{
   
     
   },  
-     
+  Timer:{
+    color:'#1474F0'
+  }
 
    
 })

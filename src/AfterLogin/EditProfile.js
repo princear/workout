@@ -209,9 +209,10 @@ fetch(editprofile,
             console.log(responseJson.status)
               console.log("from login ",responseJson.data);
            
-          //  Alert.alert(responseJson.data.message);
+            Alert.alert(responseJson.data.message);
+            //Alert.alert(responseJson.data.message);
            //this.props.navigation.goBack(null);
-             this.props.navigation.navigate("Home",{
+             this.props.navigation.navigate("Auth",{
             //     name: responseJson.data.user.name
              }); 
 

@@ -24,11 +24,15 @@ export default class LoginScreen
           isLoading:false,
           //email:'prince@delimp.com',
           //email:'tysellespencer@aol.com',
-           email:'sudhanshu+axces@delimp.com',
+          // email:'sudhanshu+axces@delimp.com',
+          // email:'cj.velasco@makelemonapp.com',
+           //password:'lemonapp@123',
            //password:'zoom@123',
           //password:'zoom@123',
-          password:'admin@123',
+          //password:'admin@123',
           //password:'gocgoq-2futto-bezGub',
+          email:'',
+          password:''
         
 
         }
@@ -93,7 +97,7 @@ setTimeout(() => {
        
 
             
-            this.props.navigation.navigate("Home",{
+            this.props.navigation.navigate("AuthCheck",{
                 name: responseJson.data.user.name
             }); 
           

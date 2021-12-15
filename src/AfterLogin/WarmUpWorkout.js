@@ -66,7 +66,12 @@ export default class WarmUpWorkout extends Component {
             currentpercentage:'',
             ItemIndex:0 ,
             indexvalue:'',
-            playbutton:false
+            playbutton:false,
+            progressPercent1:0,
+            progressPercent2:0,
+            progressPercent3:0,
+            progressPercent4:0
+
 
             
         };
@@ -84,19 +89,16 @@ export default class WarmUpWorkout extends Component {
     componentWillMount() {
 
       BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+     
   }
 
-  componentWillUnmount() {
-
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
-  
-    }
+ 
 
   handleBackButtonClick() {
   
-      this.props.route.params.onGoBack();
-      this.props.navigation.goBack();
-      return true;
+      // this.props.route.params.onGoBack();
+      // this.props.navigation.goBack();
+      return  true;
   }
 
   goBack = () => {
@@ -181,10 +183,6 @@ export default class WarmUpWorkout extends Component {
    
       console.log('stop>>>>>>>>>>>>>>>>>',this.state.ExerciseId,this.state.seconds,this.state.dataa)
 
-
-
-
-      
      // console.log('stop>>>>>>>>>>>>>>>>>',this.state.workoutLeftTime)
       const login = await AsyncStorage.getItem('login');
       //console.log("dashboard", login);
@@ -256,7 +254,7 @@ export default class WarmUpWorkout extends Component {
 
           }
 
-      if(this.state.seconds == 0 )
+      else if(this.state.seconds == 0 )
 
     
 
@@ -366,12 +364,17 @@ export default class WarmUpWorkout extends Component {
         workoutactualTime:this.state.workoutactualTime,
 
         progressPercent : parseInt(this.state.workoutSpendTime * 100)/ parseInt(this.state.workoutactualTime),
+        
+       
+        
+
+
+       
+
       
       });
       
-      // console.log('>>>>>>>>>>>>>>>>>>>',this.state.workoutLeftTime,
     
-     //  this.state.progressPercent)
       // Check if we're at zero.
 
 
@@ -406,8 +409,12 @@ export default class WarmUpWorkout extends Component {
             
             console.log('Finished workour=t',responseJson.data);
                setTimeout(() => {
-                   this.setState({ isLoading: false})
-                   this.props.navigation.navigate('CongratsScreen');
+                   this.setState({ isLoading: false}) 
+                 //  this.props.navigation.navigate('CongratsScreen');
+                   this.props.navigation.navigate('WorkoutDetail',{
+                    workId:this.props.route.params.WorkID
+                   });
+                  
 
                }, 2000)
  
@@ -526,13 +533,18 @@ export default class WarmUpWorkout extends Component {
                         workoutSpendTime:responseJson.data.workout.workout_spend_duration,
                         workoutactualTime:responseJson.data.workout.workout_actual_duration,
 
+                        // progressPercent1 : parseInt(this.state.progressPercent) - parseInt(20),
+                        // progressPercent2 : parseInt(this.state.progressPercent) - 40,
+                        // progressPercent3 : parseInt(this.state.progressPercent) - 60,
+                        // progressPercent4 : parseInt(this.state.progressPercent) - 80,
+
 
                     })
                 }, 2000)
 
             })
             .catch(error => console.log(error))
-
+            console.log('>>>>>>>>>>>>>>>>>>>',this.state.progressPercent,this.state.progressPercent1)
 
 
 
@@ -587,6 +599,8 @@ export default class WarmUpWorkout extends Component {
 
             const index = await AsyncStorage.getItem('CurrentExIndex');
             const running =  await AsyncStorage.getItem('Currentrunning'); 
+           // const running = JSON.stringify(running1);
+
             const WorkTime = await AsyncStorage.getItem('WorkTime');
           
          //   this.state.playbutton = await AsyncStorage.getItem('playbutton');
@@ -750,12 +764,13 @@ export default class WarmUpWorkout extends Component {
             AsyncStorage.setItem("CurrentExIndex",this.state.ExerciseId.toString());
            
             console.log('&&&&&&&&&&&&&&&&7--->>>>>>>>>>>---------',this.state.Exerimage,this.state.dataa,this.state.ItemIndex,index,this.state.seconds,this.state.ExerciseId,this.state.orignal_duration); 
-  
+           
           let timeLeftVar = this.secondsToTime(this.state.seconds);
           this.setState({ time: timeLeftVar });
              // this.startTimer();
 
           })
+          
           .catch(error => console.log(error))
        
     }
@@ -842,37 +857,58 @@ export default class WarmUpWorkout extends Component {
 
   gotonext()
   {
+    this.stopTimer()
+    const WorkoutID = this.props.route.params.WorkID;
     console.log('asssssssssssssssss');
+    this.props.navigation.navigate('ExerciseWorkout',{
+      WorkID:WorkoutID,
+      WorkTitle:this.state.dataa,
+      workTime:this.state.seconds,
+      ExerciseId:this.state.ExerciseId,
+      indexvalue:this.state.ItemIndex,
+      playbutton:this.state.playbutton,
+      Exerimage:this.state.Exerimage,
+      running:this.state.running,
+      orignal_duration:this.state.orignal_duration,
+    
+     onGoBack:() => this.refresh()
+
+})
   }
     render() {
        
-    if(this.state.isLoading == true)
-      return(
-        <View style={{ flex: 1, justifyContent: 'center', position: 'absolute', top: '50%', left: '40%' }}>
+    // if(this.state.isLoading == true)
+    //   return(
+    //     <View style={{ flex: 1, justifyContent: 'center', position: 'absolute', top: '50%', left: '40%' }}>
 
-        <ActivityIndicator
-            size="large"
-            style={{
-                backgroundColor: "rgba(20,116,240,.8)",
-                height: 80,
-                width: 80,
-                zIndex: 999,
-                borderRadius: 15
-            }}
-            size="small"
-            color="#ffffff"
-        />
+    //     <ActivityIndicator
+    //         size="large"
+    //         style={{
+    //             backgroundColor: "rgba(20,116,240,.8)",
+    //             height: 80,
+    //             width: 80,
+    //             zIndex: 999,
+    //             borderRadius: 15
+    //         }}
+    //         size="small"
+    //         color="#ffffff"
+    //     />
 
-    </View>
-      )
+    // </View>
+    //   )
       //  const name = this.props.route.params.name;
       const WorkoutID = this.props.route.params.WorkID;
+      const zero = parseInt(this.state.progressPercent) - 0;
+      const one = parseInt(this.state.progressPercent) -20;
+      const two = parseInt(this.state.progressPercent) -40;
+      const three = parseInt(this.state.progressPercent) -60;
+      const four = parseInt(this.state.progressPercent) -80;
 
         return (
 
             <View style={styles.container}>
 
-                 {/* {(this.state.isLoading) &&
+                 {(this.state.isLoading) &&
                     <View style={{ flex: 1, justifyContent: 'center', position: 'absolute', top: '50%', left: '40%' }}>
 
                         <ActivityIndicator
@@ -888,7 +924,7 @@ export default class WarmUpWorkout extends Component {
                             color="#ffffff"
                         />
 
-                    </View>} */}
+                    </View>}
 
                     {this.state.Exerimage == '' ?
                     <ImageBackground  
@@ -898,7 +934,7 @@ export default class WarmUpWorkout extends Component {
 
                           
                              
-                             <TouchableOpacity style={{ width:wp('48%')}} onPress={() => this.goBack()}>
+                             <TouchableOpacity style={{ width:wp('48%')}} onPress={() => this.props.navigation.navigate('WorkoutDetail')}>
                              <Image
                                  style={{
                                  margin: 10,
@@ -915,20 +951,7 @@ export default class WarmUpWorkout extends Component {
                              
                             
                                <View style={{width:wp('48%'),flexDirection:'row',justifyContent:'flex-end'}}>
-                   <TouchableOpacity  onPress={() => this.props.navigation.navigate('ExerciseWorkout',{
-                               WorkID:WorkoutID,
-                               WorkTitle:this.state.dataa,
-                               workTime:this.state.seconds,
-                               ExerciseId:this.state.ExerciseId,
-                               indexvalue:this.state.ItemIndex,
-                               playbutton:this.state.playbutton,
-                               Exerimage:this.state.Exerimage,
-                               running:this.state.running,
-                               orignal_duration:this.state.orignal_duration,
-                             
-                              onGoBack:() => this.refresh()
-       
-                   })}>
+                   <TouchableOpacity  onPress={() => this.props.navigation.navigate('WorkoutDetail')()}>
                    <Image
                               style={{
                               
@@ -967,7 +990,7 @@ export default class WarmUpWorkout extends Component {
                                      margin: 10,
                                     height:20,
                                     width:20,
-                                    backgroundColor:'red'
+                                   // backgroundColor:'red'
                                    
                                      // tintColor: '#f05c54',
                                  
@@ -982,8 +1005,8 @@ export default class WarmUpWorkout extends Component {
                       
                            
                            <TouchableOpacity 
-                           disabled={true}
-                           style={{ width:wp('48%')}} onPress={() => this.goBack()}>
+                         //  disabled={true}
+                           style={{ width:wp('48%')}} onPress={() => this.props.navigation.navigate('WorkoutDetail')}>
                                    <Image
                                        style={{
                                        margin: 10,
@@ -994,25 +1017,13 @@ export default class WarmUpWorkout extends Component {
                                        // tintColor: '#f05c54',
                                    
                                        }}
-                                       source={require('../../Assets/back.png')}
+                                       source={require('../../Assets/back-disable.png')}
                                    />
    
                            </TouchableOpacity>
       }
                            <View style={{width:wp('48%'),flexDirection:'row',justifyContent:'flex-end'}}>
-               <TouchableOpacity  onPress={() => this.props.navigation.navigate('ExerciseWorkout',{
-                           WorkID:WorkoutID,
-                           WorkTitle:this.state.dataa,
-                           workTime:this.state.seconds,
-                           ExerciseId:this.state.ExerciseId,
-                           indexvalue:this.state.ItemIndex,
-                           playbutton:this.state.playbutton,
-                           Exerimage:this.state.Exerimage,
-                           running:this.state.running,
-                           orignal_duration:this.state.orignal_duration,
-                           onGoBack:() => this.refresh()
-   
-               })}>
+               <TouchableOpacity  onPress={() => this.gotonext()}>
                <Image
                           style={{
                           
@@ -1041,30 +1052,249 @@ export default class WarmUpWorkout extends Component {
                 <View style={{margin:10}}>
                
                        <Text style={styles.Title}>{this.state.Title}</Text>
-                       {this.state.running == true ?
+
+                       {/* {this.state.running == true ?
                         
                         <Text style={styles.Title}>True</Text>
                         :
                         <Text style={styles.Title}>false</Text>
                         
-                        }
-                     
+                        }*/
+
+                      }
                        
-                       <View style={{flexDirection:'row'}}> 
-                       <Text style={styles.Title1}>Progress</Text>
+                          
+                       {/* <View style={{flexDirection:'row'}}> 
+                      
+                    
+                      <Text >{parseInt(this.state.progressPercent)}%</Text>
+                      <Text >{one}%</Text>
+                      <Text >{two}%</Text>
+                      <Text >{three}%</Text>
+                      <Text >{four}%</Text>
                      
-                       <Text style={styles.PercentText}>{parseInt(this.state.progressPercent)}%</Text>
+                  
+                   </View> */}
+
+                       <View style={{flexDirection:'row'}}> 
+                      
+                          <Text style={styles.Title1}>Progress</Text>
+                          <Text style={styles.PercentText}>{parseInt(this.state.progressPercent)}%</Text>
+                        
+                      
                        </View>
-                       <View style={{width:wp('90%'),marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
-                                       
                                 
-                                         <LinearGradient   colors={['#1474F0','red' ,]} 
-                                          style={[  
-                                           styles.inner,{width:  parseInt(this.state.progressPercent) +"%",borderRadius: 50},  
-                                       ]}   
-                            />
-                                     
-                     </View>
+
+
+                        {/* <View style={{width:wp('90%'),marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+                                        
+                      
+                         
+                            <LinearGradient   colors={['#1474F0','red' ,]} 
+                             style={[  
+                                  styles.inner,{width: parseInt(this.state.progressPercent),marginRight:2 +"%",borderRadius: 50},  
+                              ]}   
+
+                        />
+                      
+
+                      </View> */}
+
+                    
+                      <View style={{flexDirection:'row'}}>
+
+                        <View style={{width:wp('18%'),marginRight:5,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+                      
+                        {(() => {
+                        if (zero <= '0') {
+                          return (
+                              <View/>
+                          )
+                        }
+
+                        else if (zero >= '20') {
+                          return (
+                            <LinearGradient   colors={['#1474F0','red' ,]} 
+                            style={[  
+                             styles.inner,{width: wp('18%'),borderRadius: 50},  
+                             ]}   
+       
+                       />
+                       
+                          )
+                        }
+
+                        else {
+                          return (
+                            <LinearGradient   colors={['#1474F0','red' ,]} 
+                            style={[  
+                             styles.inner,{width: wp(parseInt(zero)),marginRight:2,borderRadius: 50},  
+                             ]}   
+       
+                       />
+                          )
+                        }
+                      })()}
+
+                       </View>
+
+                       <View style={{width:wp('18%'),marginRight:5,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+                      
+                       {(() => {
+                        if (one <= '0') {
+                          return (
+                              <View/>
+                          )
+                        }
+
+                        else if (one >= '20') {
+                          return (
+                            <LinearGradient   colors={['#1474F0','red' ,]} 
+                            style={[  
+                             styles.inner,{width: wp('18%'),borderRadius: 50},  
+                             ]}   
+       
+                       />
+                       
+                          )
+                        }
+
+                        else {
+                          return (
+                            <LinearGradient   colors={['#1474F0','red' ,]} 
+                            style={[  
+                             styles.inner,{width: wp(parseInt(one)),marginRight:2,borderRadius: 50},  
+                             ]}   
+       
+                       />
+                          )
+                        }
+                      })()}
+
+                      
+                       </View>
+
+                       <View style={{width:wp('18%'),marginRight:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+                     
+                       {(() => {
+                        if (two <= '0') {
+                          return (
+                              <View/>
+                          )
+                        }
+
+                        else if (two >= '20') {
+                          return (
+                            <LinearGradient   colors={['#1474F0','red' ,]} 
+                            style={[  
+                             styles.inner,{width: wp('18%'),marginRight:2,borderRadius: 50},  
+                             ]}   
+       
+                       />
+                       
+                          )
+                        }
+
+                        else {
+                          return (
+                            <LinearGradient   colors={['#1474F0','red' ,]} 
+                            style={[  
+                             styles.inner,{width: wp(parseInt(two)),marginRight:2,borderRadius: 50},  
+                             ]}   
+       
+                       />
+                          )
+                        }
+                      })()}
+
+                
+                
+                 </View>
+
+                 <View style={{width:wp('18%'),marginRight:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+                     
+                
+                 {(() => {
+                        if (three <= 0) {
+                          return (
+                              <View/>
+                          )
+                        }
+
+                        else if (three >= 20) {
+                          return (
+                            <LinearGradient   colors={['#1474F0','red' ,]} 
+                            style={[  
+                             styles.inner,{width: wp('18%'),marginRight:2,borderRadius: 50},  
+                             ]}   
+       
+                       />
+                       
+                          )
+                        }
+
+                        else {
+                          return (
+                            <LinearGradient   colors={['#1474F0','red' ,]} 
+                            style={[  
+                             styles.inner,{width: wp(parseInt(three)),marginRight:2,borderRadius: 50},  
+                             ]}   
+       
+                       />
+                          )
+                        }
+                      })()}
+
+                
+                
+                 </View>
+
+                       
+
+                 <View style={{width:wp('18%'),marginRight:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+               
+                 {(() => {
+                        if (four <= '0') {
+                          return (
+                              <View/>
+                          )
+                        }
+
+                        else if (four >= '20') {
+                          return (
+                            <LinearGradient   colors={['#1474F0','red' ,]} 
+                            style={[  
+                             styles.inner,{width: wp('18%'),marginRight:2,borderRadius: 50},  
+                             ]}   
+       
+                       />
+                       
+                          )
+                        }
+
+                        else {
+                          return (
+                            <LinearGradient   colors={['#1474F0','red' ,]} 
+                            style={[  
+                             styles.inner,{width: wp(parseInt(four)),marginRight:2,borderRadius: 50},  
+                             ]}   
+       
+                       />
+                          )
+                        }
+                      })()}
+
+                
+                 </View>
+                       
+                              
+                 </View>       
+
+                         
+
+                        
+                                 
+                     {/* </View> */}
                       {/* <View style={{width:wp('90%'),borderWidth:1,margin:10,borderColor:'#CDCECF'}}>
                       <Animated.View  
 
@@ -1111,6 +1341,7 @@ export default class WarmUpWorkout extends Component {
         running={this.state.running}
       
       /> */}
+
                 </View>    
    
                   
@@ -1136,57 +1367,52 @@ export default class WarmUpWorkout extends Component {
                                 source={require('../../Assets/reverse.png')}
                             />
                             </TouchableOpacity> */}
-{/* <Text>{this.state.currentIndex}{this.state.ItemIndex}</Text> */}
+              {/* <Text>{this.state.currentIndex}{this.state.ItemIndex}</Text> */}
 
-{this.state.currentIndex == 0 ?
+                {this.state.currentIndex == 0 ?
 
+                <TouchableOpacity disabled={true}
+                onPress={() => this.prev_Excercise()}
+                >
+                  
+                    <Image
+                    style={{
+                
+                
+                  marginTop:10,
+                  // justifyContent:'center'
+                  // alignSelf:'center'      
+                    resizeMode:'contain',
+                    height:30,
+                    width:30,
+                    
+                    }}
+                    source={require('../../Assets/back-disable.png')}
+                />
+                
+                </TouchableOpacity>
 
+                :
 
+                <TouchableOpacity onPress={() => this.prev_Excercise()}>
+                  
+                    <Image
+                    style={{
+                
+                
+                  marginTop:10,
+                  // justifyContent:'center'
+                  // alignSelf:'center'      
+                    resizeMode:'contain',
+                    height:30,
+                    width:30,
+                    
+                    }}
+                    source={require('../../Assets/back.1.png')}
+                />
+                </TouchableOpacity>
 
-<TouchableOpacity disabled={true}
-onPress={() => this.prev_Excercise()}
->
-  
-     <Image
-     style={{
- 
- 
-   marginTop:10,
-  // justifyContent:'center'
-   // alignSelf:'center'      
-    resizeMode:'contain',
-    height:30,
-    width:30,
-     
-     }}
-     source={require('../../Assets/back-disable.png')}
- />
- 
-</TouchableOpacity>
-
-:
-
-<TouchableOpacity
-onPress={() => this.prev_Excercise()}
->
-  
-     <Image
-     style={{
- 
- 
-   marginTop:10,
-  // justifyContent:'center'
-   // alignSelf:'center'      
-    resizeMode:'contain',
-    height:30,
-    width:30,
-     
-     }}
-     source={require('../../Assets/back.1.png')}
- />
-</TouchableOpacity>
-
-}
+                }
                       
                 <View>
                        {this.state.running == false ?
@@ -1381,8 +1607,21 @@ const styles = StyleSheet.create({
            position:'absolute',
            top:0,
            flexDirection:'row'
-       }
-     
+       },
+      
+
+       container1: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      
+        alignItems: 'flex-start' // if you want to fill rows left to right
+      },
+      item: {
+        height:50,
+        backgroundColor:'red',
+        width: '50%' // is 50% of container width
+      }
 
    
 })

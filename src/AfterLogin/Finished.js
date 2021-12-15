@@ -288,7 +288,7 @@ export default class Finished extends Component {
                                           </DashedLine>
                                       </View> */}
   
-                                          <View style={{width:wp('55%'),marginTop:5,backgroundColor:'#CDCECF'}}>
+                                          {/* <View style={{width:wp('55%'),marginTop:5,backgroundColor:'#CDCECF'}}>
                                          
                                          
                                           <LinearGradient   colors={['#1474F0','red' ,]} 
@@ -304,7 +304,199 @@ export default class Finished extends Component {
                                               styles.inner,{width: item.workout_progress_percentage +"%"},  
                                           ]}  
                                       />   */}
-                      </View>
+                      {/* </View>  */}
+
+
+                      <View style={{flexDirection:'row'}}>
+
+<View style={{width:wp('10%'),marginRight:5,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+
+{(() => {
+if (item.workout_progress_percentage -0 <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (item.workout_progress_percentage -0 >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('10%'),borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(item.workout_progress_percentage - 0)),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+</View>
+
+<View style={{width:wp('10%'),marginRight:5,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+
+{(() => {
+if (item.workout_progress_percentage -20 <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (item.workout_progress_percentage -20 >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('10%'),borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(item.workout_progress_percentage -20)),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+</View>
+
+<View style={{width:wp('10%'),marginRight:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+
+{(() => {
+if (item.workout_progress_percentage -40 <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (item.workout_progress_percentage -40 >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('10%'),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(item.workout_progress_percentage -40)),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+
+</View>
+
+<View style={{width:wp('10%'),marginRight:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+
+
+{(() => {
+if (item.workout_progress_percentage -60 <= 0) {
+  return (
+      <View/>
+  )
+}
+
+else if (item.workout_progress_percentage -60 >= 20) {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('10%'),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(item.workout_progress_percentage -60)),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+
+</View>
+
+
+
+<View style={{width:wp('10%'),marginRight:3,height:5,marginTop:5,backgroundColor:'#CDCECF',alignSelf:'center'}}>
+
+{(() => {
+if (item.workout_progress_percentage -80 <= '0') {
+  return (
+      <View/>
+  )
+}
+
+else if (item.workout_progress_percentage -80 >= '20') {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp('10%'),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+
+  )
+}
+
+else {
+  return (
+    <LinearGradient   colors={['#1474F0','red' ,]} 
+    style={[  
+     styles.inner,{width: wp(parseInt(item.workout_progress_percentage -80)),marginRight:2,borderRadius: 50},  
+     ]}   
+
+/>
+  )
+}
+})()}
+
+
+</View>
+
+      
+</View>   
+
+
                                          </View> 
                                     </TouchableOpacity>
                     
